@@ -1,22 +1,22 @@
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
-import java.util.Scanner;
 
 
 public class TSPAlgo {
     /*static Scanner scanner = new Scanner(System.in);
     private static String filePath = scanner.nextLine();;*/
-    private int[][] distances;
+    private double[][] distances;
     private int populationSize;
     private double crossoverRate;
     private double mutationRate;
     private int tournamentSize;
     private int maxGenerations;
 
-    public TSPAlgo(int[][] distances, int populationSize, double crossoverRate, double mutationRate,
-                               int tournamentSize, int maxGenerations) {
+    public TSPAlgo(double[][] distances, int populationSize, double crossoverRate, double mutationRate,
+                   int tournamentSize, int maxGenerations) {
         this.distances = distances;
         this.populationSize = populationSize;
         this.crossoverRate = crossoverRate;
@@ -129,25 +129,27 @@ public class TSPAlgo {
         return bestIndividual;
     }
 
-    public static void main(String[] args) {
-        int[][] distances = {
-                {0, 29, 20, 21},
-                {29, 0, 15, 12},
-                {20, 15, 0, 25},
-                {21, 12, 25, 0}
-        }; //Muss noch ersetzt werden durch die Werte aus den TSP Dateien
+    public static void main(String[] args) throws IOException {
+        double[][] distancesB = TSPLoader.distanceMatrix("src\\berlin52.tsp", 52);
+        double[][] distancesA = TSPLoader.distanceMatrix("src\\gr229.tsp", 229);
         int populationSize = 50;
         double crossoverRate = 0.8;
         double mutationRate = 0.2;
         int tournamentSize = 5;
         int maxGenerations = 1000;
 
-        TSPAlgo ga = new TSPAlgo(distances, populationSize, crossoverRate, mutationRate,
+        TSPAlgo ga = new TSPAlgo(distancesB, populationSize, crossoverRate, mutationRate,
+                tournamentSize, maxGenerations);
+        TSPAlgo ga2 = new TSPAlgo(distancesA, populationSize, crossoverRate, mutationRate,
                 tournamentSize, maxGenerations);
 
         List<Integer> solution = ga.solveTSP();
         System.out.println("Best solution found: " + solution);
         System.out.println("Total distance: " + ga.fitness(solution));
+
+        List<Integer> solution2 = ga2.solveTSP();
+        System.out.println("Best solution found: " + solution2);
+        System.out.println("Total distance: " + ga2.fitness(solution2));
     }
 }
 
