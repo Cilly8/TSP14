@@ -10,9 +10,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class TSPToGraph {
-    private static List<Point> citys=new ArrayList<>();
+    private static List<Point> citys = new ArrayList<>();
+    private List<MyEdge> distances = new ArrayList<>();
 
     public static List<Point> loadTSP(String filePath, int numLocations) throws IOException {
+        double[][] distanceMatrix = new double[numLocations][numLocations];
         // Read the TSP file
         BufferedReader reader = new BufferedReader(new FileReader(filePath));
         String line;
@@ -24,13 +26,11 @@ public class TSPToGraph {
             }
             if (coordinatesStarted) {
                 String[] parts = line.trim().split("\\s+");
-                //System.out.print("Parts: " + parts[0] + "\n");
                 double x1 = Double.parseDouble(parts[1]);
-                //System.out.print("X1: " + x1 + "\n");
                 double y1 = Double.parseDouble(parts[2]);
-                //System.out.print("Y1: " + y1 + "\n");
-               Point a=new Point(x1,y1);
-               citys.add(a);
+                Point a = new Point(x1, y1);
+                citys.add(a);
+                int otherplaceonIndex = placeonIndex + 1; // Beginne mit dem nächsten Ort
                 placeonIndex++;
             } else {
                 if (line.startsWith("NODE_COORD_SECTION")) {
@@ -39,19 +39,11 @@ public class TSPToGraph {
             }
         }
         reader.close();
-        if(citys.size()==numLocations) {
-            System.out.println("Es hat geklappt");
-
-        }
-        System.out.println("-"+citys.size()+" "+numLocations);
         return citys;
     }
 
     public static List<Point> distanceList(String filePath, int numLocations) throws IOException {
-        List<Point> citys= loadTSP(filePath, numLocations);
+        List<Point> citys = loadTSP(filePath, numLocations);
         return citys;
-        //printMatrix(distanceMatrix);
     }
-
-
 }

@@ -1,7 +1,5 @@
 package Logic;
 
-import Cilly.TSPAlgo;
-import Cilly.TSPLoader;
 import supportMethods.ImprovedTSPVisualizer;
 import supportMethods.MyEdge;
 import supportMethods.Point;
@@ -10,9 +8,7 @@ import java.io.IOException;
 import java.util.*;
 
 public class GraphAlgo {
-    /*static Scanner scanner = new Scanner(System.in);
-   private static String filePath = scanner.nextLine();;*/
-    private List<Point> citys;
+    private final List<Point> citys;
     private int populationSize;
     private double crossoverRate;
     private double mutationRate;
@@ -29,7 +25,7 @@ public class GraphAlgo {
         this.maxGenerations = maxGenerations;
     }
 
-    public List<MyEdge> solveTSP() {
+    public List<MyEdge> solveTSP() {//alle methoden werden nacheinander aufgerufen um das Tsp zu Lösen
         List<List<MyEdge>> population = initializePopulation();
 
         for (int generation = 0; generation < maxGenerations; generation++) {
@@ -39,13 +35,11 @@ public class GraphAlgo {
                 List<MyEdge> parent1 = tournamentSelection(population);
                 List<MyEdge> parent2 = tournamentSelection(population);
                 List<MyEdge> offspring = crossover(parent1, parent2);
-                offspring=mutate(offspring);
+                mutate(offspring);
                 nextGeneration.add(offspring);
             }
-
             population = nextGeneration;
         }
-
         return getBestIndividual(population);
     }
 
@@ -78,7 +72,7 @@ public class GraphAlgo {
 
     private List<MyEdge> crossover(List<MyEdge> parent1, List<MyEdge> parent2) {
         List<Point> offspring = new ArrayList<>(this.EdgeToPoint(parent1));
-         List<Point> parent2Point=new ArrayList<>(this.EdgeToPoint(parent2));
+        List<Point> parent2Point = new ArrayList<>(this.EdgeToPoint(parent2));
         if (Math.random() < crossoverRate) {
             int crossoverPoint1 = new Random().nextInt(parent1.size());
             int crossoverPoint2 = new Random().nextInt(parent1.size());
@@ -99,35 +93,30 @@ public class GraphAlgo {
                 }
             }
         }
-
         return this.PointToEdge(offspring);
     }
 
-    private List<MyEdge> mutate(List<MyEdge> individual) {
-        List<Point> routeNoDistance=this.EdgeToPoint(individual);
+    private void mutate(List<MyEdge> individual) {
+        List<Point> routeNoDistance = this.EdgeToPoint(individual);
         if (Math.random() < mutationRate) {
             int index1 = new Random().nextInt(routeNoDistance.size());
             int index2 = new Random().nextInt(routeNoDistance.size());
             Collections.swap(routeNoDistance, index1, index2);
-           return individual=this.PointToEdge(routeNoDistance);
-        }
-        else{
-            return individual;
         }
     }
 
-    public List<Point>EdgeToPoint(List<MyEdge> route){
-        List<Point> routeNoDistances=new ArrayList<>();
-        for (int i = 0; i < route.size(); i++) {
-            routeNoDistances.add(route.get(i).getA());
+    public List<Point> EdgeToPoint(List<MyEdge> route) {
+        List<Point> routeNoDistances = new ArrayList<>();
+        for (MyEdge myEdge : route) {
+            routeNoDistances.add(myEdge.getA());
         }
         return routeNoDistances;
     }
 
-    public List<MyEdge>PointToEdge(List<Point> routeNoDistances){
-        List<MyEdge> route=new ArrayList<>();
+    public List<MyEdge> PointToEdge(List<Point> routeNoDistances) {
+        List<MyEdge> route = new ArrayList<>();
         for (int j = 0; j < routeNoDistances.size(); j++) {
-            if (j!=routeNoDistances.size()-1) {
+            if (j != routeNoDistances.size() - 1) {
                 route.add(new MyEdge(routeNoDistances.get(j), routeNoDistances.get(j + 1)));
             } else {
                 route.add(new MyEdge(routeNoDistances.get(j), routeNoDistances.get(0)));
@@ -138,8 +127,7 @@ public class GraphAlgo {
 
     public int getTotalDistance(List<MyEdge> individual) {
         int totalDistance = 0;
-        for (int i = 0; i < individual.size() ; i++) {
-            MyEdge partIndividual=individual.get(i);
+        for (MyEdge partIndividual : individual) {
             totalDistance += partIndividual.calculateDistance();
         }
         return totalDistance;
@@ -154,6 +142,7 @@ public class GraphAlgo {
         }
         return bestIndividual;
     }
+
     private void setParameterMenue(Scanner menuScanner) {//Setztung der Paramter durch den Nutzer in Form eines Menps
         String Eingabe;
         System.out.println("Dies ist das Menü, geben Sie bitte Ihre Werte ein. Falls Sie das nicht machen werden Standartwerte genutzt");
@@ -166,7 +155,7 @@ public class GraphAlgo {
                     System.out.println("Bitte geben Sie die Einwohneranzahl ein oder Z für zurück");
                     Eingabe = menuScanner.nextLine();
                     if (!Eingabe.equals("z") && !Eingabe.equals("Z")) {
-                        this.populationSize=sicherStringZuInt(Eingabe);
+                        this.populationSize = sicherStringZuInt(Eingabe);
                     }
                     break;
                 case "g"://Anzahl der Generationen
@@ -174,7 +163,7 @@ public class GraphAlgo {
                     System.out.println("Bitte geben Sie die Generationenanzahl ein oder Z für zurück");
                     Eingabe = menuScanner.nextLine();
                     if (!Eingabe.equals("z") && !Eingabe.equals("Z")) {
-                        this.maxGenerations=sicherStringZuInt(Eingabe);
+                        this.maxGenerations = sicherStringZuInt(Eingabe);
                     }
                     break;
                 case "k":
@@ -182,7 +171,7 @@ public class GraphAlgo {
                     System.out.println("Bitte geben Sie die Kreuzungsrate ein oder Z für zurück");
                     Eingabe = menuScanner.nextLine();
                     if (!Eingabe.equals("z") && !Eingabe.equals("Z")) {
-                        this.crossoverRate=sicherStringZuDouble(Eingabe);
+                        this.crossoverRate = sicherStringZuDouble(Eingabe);
                     }
                     break;
                 case "m"://Mutationsrate
@@ -190,7 +179,7 @@ public class GraphAlgo {
                     System.out.println("Bitte geben Sie die Mutationsrate ein oder Z für zurück");
                     Eingabe = menuScanner.nextLine();
                     if (!Eingabe.equals("z") && !Eingabe.equals("Z")) {
-                        this.mutationRate=sicherStringZuDouble(Eingabe);
+                        this.mutationRate = sicherStringZuDouble(Eingabe);
                     }
                     break;
                 case "t"://Turniergröße
@@ -198,7 +187,7 @@ public class GraphAlgo {
                     System.out.println("Bitte geben Sie die Turniergröße ein oder Z für zurück");
                     Eingabe = menuScanner.nextLine();
                     if (!Eingabe.equals("z") && !Eingabe.equals("Z")) {
-                        this.tournamentSize=(sicherStringZuInt(Eingabe));
+                        this.tournamentSize = (sicherStringZuInt(Eingabe));
                     }
                     break;
                 case "p"://Parameter Ausgeben
@@ -240,6 +229,7 @@ public class GraphAlgo {
             return null;
         }
     }
+
     public static void main(String[] args) throws IOException {
         Scanner menuScanner = new Scanner(System.in);
         ImprovedTSPVisualizer myVisualizer = new ImprovedTSPVisualizer();
@@ -251,7 +241,6 @@ public class GraphAlgo {
         double mutationRate = 0.2;
         int tournamentSize = 5;
         int maxGenerations = 1000;
-
         GraphAlgo ga = new GraphAlgo(distancesB, populationSize, crossoverRate, mutationRate,
                 tournamentSize, maxGenerations);
         GraphAlgo ga2 = new GraphAlgo(distancesA, populationSize, crossoverRate, mutationRate,
@@ -263,12 +252,10 @@ public class GraphAlgo {
         List<MyEdge> solution = ga.solveTSP();//Lösungen erst als Text dann als Graphik ausgeben
         System.out.println("Best solution found: " + solution);
         System.out.println("Total distance: " + ga.getTotalDistance(solution));
-        myVisualizer.LoesungsAnzeige(ga.EdgeToPoint(solution),"src\\berlin52.tsp Loesung -52 Knoten");
+        myVisualizer.LoesungsAnzeige(ga.EdgeToPoint(solution), "src\\berlin52.tsp Loesung -52 Knoten");
         List<MyEdge> solution2 = ga2.solveTSP();
         System.out.println("Best solution found: " + solution2);
         System.out.println("Total distance: " + ga2.getTotalDistance(solution2));
-        myVisualizer.LoesungsAnzeige(ga2.EdgeToPoint(solution2),"src\\gr229.tsp Loesung -229 Knoten");
-
+        myVisualizer.LoesungsAnzeige(ga2.EdgeToPoint(solution2), "src\\gr229.tsp Loesung -229 Knoten");
     }
-
 }
