@@ -1,23 +1,29 @@
+package Logic;
+
+import Cilly.TSPAlgo;
+import Cilly.TSPLoader;
+import supportMethods.MyEdge;
+import supportMethods.Point;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
-
-public class TSPAlgo {
+public class GraphAlgo {
     /*static Scanner scanner = new Scanner(System.in);
-    private static String filePath = scanner.nextLine();;*/
-    private double[][] distances;
+   private static String filePath = scanner.nextLine();;*/
+    private List<Point> citys;
     private int populationSize;
     private double crossoverRate;
     private double mutationRate;
     private int tournamentSize;
     private int maxGenerations;
 
-    public TSPAlgo(double[][] distances, int populationSize, double crossoverRate, double mutationRate,
-                   int tournamentSize, int maxGenerations) {
-        this.distances = distances;
+    public GraphAlgo(List<Point> citys, int populationSize, double crossoverRate, double mutationRate,
+                     int tournamentSize, int maxGenerations) {
+        this.citys = citys;
         this.populationSize = populationSize;
         this.crossoverRate = crossoverRate;
         this.mutationRate = mutationRate;
@@ -25,16 +31,16 @@ public class TSPAlgo {
         this.maxGenerations = maxGenerations;
     }
 
-    public List<Integer> solveTSP() {
-        List<List<Integer>> population = initializePopulation();
+    public List<MyEdge> solveTSP() {
+        List<List<MyEdge>> population = initializePopulation();
 
         for (int generation = 0; generation < maxGenerations; generation++) {
-            List<List<Integer>> nextGeneration = new ArrayList<>();
+            List<List<MyEdge>> nextGeneration = new ArrayList<>();
 
             while (nextGeneration.size() < populationSize) {
-                List<Integer> parent1 = tournamentSelection(population);
-                List<Integer> parent2 = tournamentSelection(population);
-                List<Integer> offspring = crossover(parent1, parent2);
+                List<MyEdge> parent1 = tournamentSelection(population);
+                List<MyEdge> parent2 = tournamentSelection(population);
+                List<MyEdge> offspring = crossover(parent1, parent2);
                 mutate(offspring);
                 nextGeneration.add(offspring);
             }
@@ -45,22 +51,19 @@ public class TSPAlgo {
         return getBestIndividual(population);
     }
 
-    private List<List<Integer>> initializePopulation() {
-        List<List<Integer>> population = new ArrayList<>();
+    private List<List<MyEdge>> initializePopulation() {
+        List<List<MyEdge>> population = new ArrayList<>();
 
         for (int i = 0; i < populationSize; i++) {
-            List<Integer> individual = new ArrayList<>();
-            for (int j = 0; j < distances.length; j++) {
-                individual.add(j);
-            }
+            List<Point> individual = citys;
             Collections.shuffle(individual);
-            population.add(individual);
+            population.add(this.PointToEdge(individual));
         }
 
         return population;
     }
 
-    private List<Integer> tournamentSelection(List<List<Integer>> population) {
+    private List<MyEdge> tournamentSelection(List<List<MyEdge>> population) {//Wählt tournamentSize aus, sucht daraus das beste Individuum
         Random random = new Random();
         List<Integer> tournament = new ArrayList<>();
         for (int i = 0; i < tournamentSize; i++) {
@@ -68,16 +71,16 @@ public class TSPAlgo {
         }
         int bestIndividualIndex = tournament.get(0);
         for (Integer index : tournament) {
-            if (fitness(population.get(index)) < fitness(population.get(bestIndividualIndex))) {
+            if (getTotalDistance(population.get(index)) < getTotalDistance(population.get(bestIndividualIndex))) {
                 bestIndividualIndex = index;
             }
         }
         return population.get(bestIndividualIndex);
     }
 
-    private List<Integer> crossover(List<Integer> parent1, List<Integer> parent2) {
-        List<Integer> offspring = new ArrayList<>(parent1);
-
+    private List<MyEdge> crossover(List<MyEdge> parent1, List<MyEdge> parent2) {
+        List<Point> offspring = new ArrayList<>(this.EdgeToPoint(parent1));
+         List<Point> parent2Point=new ArrayList<>(this.EdgeToPoint(parent2));
         if (Math.random() < crossoverRate) {
             int crossoverPoint1 = new Random().nextInt(parent1.size());
             int crossoverPoint2 = new Random().nextInt(parent1.size());
@@ -85,8 +88,8 @@ public class TSPAlgo {
             int startPoint = Math.min(crossoverPoint1, crossoverPoint2);
             int endPoint = Math.max(crossoverPoint1, crossoverPoint2);
 
-            List<Integer> childSegment = parent2.subList(startPoint, endPoint);
-            List<Integer> remainingCities = new ArrayList<>(parent1);
+            List<Point> childSegment = parent2Point.subList(startPoint, endPoint);
+            List<Point> remainingCities = new ArrayList<>(this.EdgeToPoint(parent1));
             remainingCities.removeAll(childSegment);
 
             int insertIndex = 0;
@@ -99,30 +102,52 @@ public class TSPAlgo {
             }
         }
 
-        return offspring;
+        return this.PointToEdge(offspring);
     }
 
-    private void mutate(List<Integer> individual) {
+    private void mutate(List<MyEdge> individual) {
+        List<Point> routeNoDistance=this.EdgeToPoint(individual);
         if (Math.random() < mutationRate) {
-            int index1 = new Random().nextInt(individual.size());
-            int index2 = new Random().nextInt(individual.size());
-            Collections.swap(individual, index1, index2);
+            int index1 = new Random().nextInt(routeNoDistance.size());
+            int index2 = new Random().nextInt(routeNoDistance.size());
+            Collections.swap(routeNoDistance, index1, index2);
+            individual=this.PointToEdge(routeNoDistance);
         }
     }
 
-    private int fitness(List<Integer> individual) {
-        int totalDistance = 0;
-        for (int i = 0; i < individual.size() - 1; i++) {
-            totalDistance += distances[individual.get(i)][individual.get(i + 1)];
+    public List<Point>EdgeToPoint(List<MyEdge> route){
+        List<Point> routeNoDistances=new ArrayList<>();
+        for (int i = 0; i < route.size(); i++) {
+            routeNoDistances.add(route.get(i).getA());
         }
-        totalDistance += distances[individual.get(individual.size() - 1)][individual.get(0)]; // Return to the starting city
+        return routeNoDistances;
+    }
+
+    public List<MyEdge>PointToEdge(List<Point> routeNoDistances){
+        List<MyEdge> route=new ArrayList<>();
+        for (int j = 0; j < routeNoDistances.size(); j++) {
+            if (j!=routeNoDistances.size()-1) {
+                route.add(new MyEdge(routeNoDistances.get(j), routeNoDistances.get(j + 1)));
+            } else {
+                route.add(new MyEdge(routeNoDistances.get(j), routeNoDistances.get(0)));
+            }
+        }
+        return route;
+    }
+
+    public int getTotalDistance(List<MyEdge> individual) {
+        int totalDistance = 0;
+        for (int i = 0; i < individual.size() ; i++) {
+            MyEdge partIndividual=individual.get(i);
+            totalDistance += partIndividual.calculateDistance();
+        }
         return totalDistance;
     }
 
-    private List<Integer> getBestIndividual(List<List<Integer>> population) {
-        List<Integer> bestIndividual = population.get(0);
-        for (List<Integer> individual : population) {
-            if (fitness(individual) < fitness(bestIndividual)) {
+    private List<MyEdge> getBestIndividual(List<List<MyEdge>> population) {
+        List<MyEdge> bestIndividual = population.get(0);
+        for (List<MyEdge> individual : population) {
+            if (getTotalDistance(individual) < getTotalDistance(bestIndividual)) {
                 bestIndividual = individual;
             }
         }
@@ -152,4 +177,3 @@ public class TSPAlgo {
         System.out.println("Total distance: " + ga2.fitness(solution2));
     }
 }
-
