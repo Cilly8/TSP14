@@ -16,7 +16,7 @@ public class TestGraph {
     public void TestAll() throws IOException {
         List<Point> distancesB;
         distancesB = TSPToGraph.distanceList("src\\berlin52.tsp", 52);
-        List<Point> distancesA = TSPToGraph.distanceList("src\\gr229.tsp", 229);
+        List<Point> distancesA = TSPToGraph.distanceList("src\\ch150.tsp", 150);
         int populationSize = 50;
         double crossoverRate = 0.8;
         double mutationRate = 0.2;
