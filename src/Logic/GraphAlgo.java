@@ -2,6 +2,7 @@ package Logic;
 
 import Cilly.TSPAlgo;
 import Cilly.TSPLoader;
+import supportMethods.ImprovedTSPVisualizer;
 import supportMethods.MyEdge;
 import supportMethods.Point;
 
@@ -150,8 +151,7 @@ public class GraphAlgo {
         }
         return bestIndividual;
     }
-    private void setParameterMenue() {//Setztung der Paramter durch den Nutzer in Form eines Menps
-        Scanner menuScanner = new Scanner(System.in);
+    private void setParameterMenue(Scanner menuScanner) {//Setztung der Paramter durch den Nutzer in Form eines Menps
         String Eingabe;
         System.out.println("Dies ist das Menü, geben Sie bitte Ihre Werte ein. Falls Sie das nicht machen werden Standartwerte genutzt");
         do {
@@ -209,7 +209,6 @@ public class GraphAlgo {
                     System.out.println("Eingabe nicht erkannt bitte versuchen sie es erneut");
             }
         } while (!Eingabe.equals("q") && !Eingabe.equals("Q"));
-        menuScanner.close();
         System.out.println("Eingabe Beendet");
     }
 
@@ -239,41 +238,33 @@ public class GraphAlgo {
         }
     }
     public static void main(String[] args) throws IOException {
-        double[][] distancesB = TSPLoader.distanceMatrix("src\\berlin52.tsp", 52);
-        double[][] distancesA = TSPLoader.distanceMatrix("src\\gr229.tsp", 229);
-        int populationSize = 50;
-        double crossoverRate = 0.8;
-        double mutationRate = 0.2;
-        int tournamentSize = 5;
-        int maxGenerations = 1000;
-
-        TSPAlgo ga = new TSPAlgo(distancesB, populationSize, crossoverRate, mutationRate,
-                tournamentSize, maxGenerations);
-        TSPAlgo ga2 = new TSPAlgo(distancesA, populationSize, crossoverRate, mutationRate,
-                tournamentSize, maxGenerations);
-
-        List<Integer> solution = ga.solveTSP();
-        System.out.println("Best solution found: " + solution);
-        System.out.println("Total distance: " + ga.fitness(solution));
-
-        List<Integer> solution2 = ga2.solveTSP();
-        System.out.println("Best solution found: " + solution2);
-        System.out.println("Total distance: " + ga2.fitness(solution2));
-
-    }
-    public static void main(String[] args) throws IOException {
+        Scanner menuScanner = new Scanner(System.in);
+        ImprovedTSPVisualizer myVisualizer = new ImprovedTSPVisualizer();
         List<Point> distancesB;
         distancesB = TSPToGraph.distanceList("src\\berlin52.tsp", 52);
         List<Point> distancesA = TSPToGraph.distanceList("src\\gr229.tsp", 229);
         int populationSize = 50;
         double crossoverRate = 0.8;
         double mutationRate = 0.2;
-        int tournamentSize = 20;
+        int tournamentSize = 5;
         int maxGenerations = 1000;
 
         GraphAlgo ga = new GraphAlgo(distancesB, populationSize, crossoverRate, mutationRate,
                 tournamentSize, maxGenerations);
         GraphAlgo ga2 = new GraphAlgo(distancesA, populationSize, crossoverRate, mutationRate,
                 tournamentSize, maxGenerations);
-    }}
+        ga.setParameterMenue(menuScanner);
+        System.out.println("Super hier ist das Zweite Menü für die anderen Städte");
+        ga2.setParameterMenue(menuScanner);
+        menuScanner.close();
+        List<MyEdge> solution = ga.solveTSP();
+        System.out.println("Best solution found: " + solution);
+        System.out.println("Total distance: " + ga.getTotalDistance(solution));
+        myVisualizer.LoesungsAnzeige(ga, );
+        List<MyEdge> solution2 = ga2.solveTSP();
+        System.out.println("Best solution found: " + solution2);
+        System.out.println("Total distance: " + ga2.getTotalDistance(solution2));
+
+    }
+
 }

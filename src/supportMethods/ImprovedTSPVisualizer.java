@@ -17,7 +17,7 @@ import java.util.*;
 
 public class ImprovedTSPVisualizer {
 
-    public void LoesungsAnzeige(GraphAlgo Loesungsgraph) {
+    public void LoesungsAnzeige(GraphAlgo Loesungsgraph, String Text) {
         List<MyEdge> solutionEdge = Loesungsgraph.solveTSP();
         // Annahme: Die Lösung ist eine Reihenfolge von Städten (Knoten)
         List<Point> solution = Loesungsgraph.EdgeToPoint(solutionEdge); // Beispiel-Lösung
@@ -47,7 +47,7 @@ public class ImprovedTSPVisualizer {
         vv.setPreferredSize(new Dimension(1900, 1000)); // Größeres Fenster
 
         // Erstelle ein Swing-Fenster und füge den Visualisierer hinzu
-        JFrame frame = new JFrame("TSP Lösung Visualisierung");
+        JFrame frame = new JFrame(Text);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.getContentPane().add(vv);
         frame.pack();
