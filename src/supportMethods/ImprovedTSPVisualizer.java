@@ -2,17 +2,12 @@ package supportMethods;
 
 import javax.swing.*;
 
-import Logic.GraphAlgo;
-import Logic.TSPToGraph;
 import edu.uci.ics.jung.algorithms.layout.*;
-import edu.uci.ics.jung.algorithms.layout.SpringLayout;
 import edu.uci.ics.jung.graph.*;
 import edu.uci.ics.jung.visualization.*;
 import edu.uci.ics.jung.visualization.decorators.ToStringLabeller;
-import supportMethods.Point;
 
 import java.awt.Dimension;
-import java.io.IOException;
 import java.util.*;
 
 public class ImprovedTSPVisualizer {//Alles eine Methode damit wir leichter beide Lösungen anzeigen können
