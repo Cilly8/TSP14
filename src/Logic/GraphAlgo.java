@@ -239,7 +239,7 @@ public class GraphAlgo {
         int populationSize = 150;
         double crossoverRate = 0.8;
         double mutationRate = 0.5;
-        int tournamentSize = 10;
+        int tournamentSize = 15;
         int maxGenerations = 1500;
         GraphAlgo ga = new GraphAlgo(distancesB, populationSize, crossoverRate, mutationRate,
                 tournamentSize, maxGenerations);
