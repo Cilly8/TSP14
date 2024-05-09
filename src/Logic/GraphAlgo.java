@@ -1,6 +1,5 @@
 package Logic;
 
-import groovyjarjarantlr4.v4.runtime.BailErrorStrategy;
 import supportMethods.ImprovedTSPVisualizer;
 import supportMethods.MyEdge;
 import supportMethods.Point;
