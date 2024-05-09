@@ -260,10 +260,11 @@ public class GraphAlgo {
         List<MyEdge> solution = ga.solveTSP();//Lösungen erst als Text dann als Graphik ausgeben
         System.out.println("Best solution found: " + solution);
         System.out.println("Total distance: " + ga.getTotalDistance(solution));
-        myVisualizer.LoesungsAnzeige(ga, );
+        myVisualizer.LoesungsAnzeige(ga.EdgeToPoint(solution),"src\\berlin52.tsp Loesung -52 Knoten");
         List<MyEdge> solution2 = ga2.solveTSP();
         System.out.println("Best solution found: " + solution2);
         System.out.println("Total distance: " + ga2.getTotalDistance(solution2));
+        myVisualizer.LoesungsAnzeige(ga2.EdgeToPoint(solution2),"src\\gr229.tsp Loesung -229 Knoten");
 
     }
 

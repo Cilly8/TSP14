@@ -17,13 +17,9 @@ import java.util.*;
 
 public class ImprovedTSPVisualizer {//Alles eine Methode damit wir leichter beide Lösungenzeigen können
 
-    public void LoesungsAnzeige(GraphAlgo Loesungsgraph, String Text) {
-        List<MyEdge> solutionEdge = Loesungsgraph.solveTSP();
-        // Annahme: Die Lösung ist eine Reihenfolge von Städten (Knoten)
-        List<Point> solution = Loesungsgraph.EdgeToPoint(solutionEdge); // Beispiel-Lösung
+    public void LoesungsAnzeige(List<Point> solution, String Text) {
 
         // Annahme: Die Lösung ist eine Reihenfolge von Städten (Knoten)
-
 
         // Erstelle einen Graphen mit den Städten und Kanten entsprechend der Lösung
         Graph<Point, String> graph = new SparseGraph<>();
@@ -39,7 +35,7 @@ public class ImprovedTSPVisualizer {//Alles eine Methode damit wir leichter beid
         Layout<Point, String> layout = new ISOMLayout<>(graph);
 
         // Setze die Größe des Layouts
-        layout.setSize(new Dimension(1500, 1000)); // Größeres Layout
+        layout.setSize(new Dimension(1500, 900)); // Größeres Layout
 
         // Erstelle den Visualisierer mit dem Layout
         VisualizationViewer<Point, String> vv = new VisualizationViewer<>(layout);
