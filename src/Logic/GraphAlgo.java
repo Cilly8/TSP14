@@ -257,7 +257,7 @@ public class GraphAlgo {
         System.out.println("Super hier ist das Zweite Menü für die anderen Städte");
         ga2.setParameterMenue(menuScanner);
         menuScanner.close();
-        List<MyEdge> solution = ga.solveTSP();
+        List<MyEdge> solution = ga.solveTSP();//Lösungen erst als Text dann als Graphik ausgeben
         System.out.println("Best solution found: " + solution);
         System.out.println("Total distance: " + ga.getTotalDistance(solution));
         myVisualizer.LoesungsAnzeige(ga, );

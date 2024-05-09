@@ -15,7 +15,7 @@ import java.awt.Dimension;
 import java.io.IOException;
 import java.util.*;
 
-public class ImprovedTSPVisualizer {
+public class ImprovedTSPVisualizer {//Alles eine Methode damit wir leichter beide Lösungenzeigen können
 
     public void LoesungsAnzeige(GraphAlgo Loesungsgraph, String Text) {
         List<MyEdge> solutionEdge = Loesungsgraph.solveTSP();
