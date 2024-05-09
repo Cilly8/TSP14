@@ -63,7 +63,6 @@ public class TestGraph {
                 tournamentSize, maxGenerations);
         List<MyEdge> distanceA=ga.PointToEdge(distancesB);
         distancesB=ga.EdgeToPoint(distanceA);
-        visualizer.showGraph(distancesB);
 
     }
 
