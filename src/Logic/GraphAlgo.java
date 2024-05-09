@@ -235,27 +235,27 @@ public class GraphAlgo {
         ImprovedTSPVisualizer myVisualizer = new ImprovedTSPVisualizer();
         List<Point> distancesB;
         distancesB = TSPToGraph.distanceList("src\\berlin52.tsp", 52);
-        List<Point> distancesA = TSPToGraph.distanceList("src\\ch150.tsp", 150);
-        int populationSize = 200;
+        //List<Point> distancesA = TSPToGraph.distanceList("src\\ch150.tsp", 150);
+        int populationSize = 150;
         double crossoverRate = 0.8;
         double mutationRate = 0.5;
         int tournamentSize = 10;
-        int maxGenerations = 2000;
+        int maxGenerations = 1500;
         GraphAlgo ga = new GraphAlgo(distancesB, populationSize, crossoverRate, mutationRate,
                 tournamentSize, maxGenerations);
-        GraphAlgo ga2 = new GraphAlgo(distancesA, populationSize, crossoverRate, mutationRate,
-                tournamentSize, maxGenerations);
+       // GraphAlgo ga2 = new GraphAlgo(distancesA, populationSize, crossoverRate, mutationRate,
+           //     tournamentSize, maxGenerations);
         ga.setParameterMenue(menuScanner);
-        System.out.println("Super hier ist das Zweite Menü für die anderen Städte");
-        ga2.setParameterMenue(menuScanner);
+        //System.out.println("Super hier ist das Zweite Menü für die anderen Städte");
+        //ga2.setParameterMenue(menuScanner);
         menuScanner.close();
         List<MyEdge> solution = ga.solveTSP();//Lösungen erst als Text dann als Graphik ausgeben
-        System.out.println("Best solution found: " + solution);
+        System.out.println("Best solution found: \n" + solution);
         System.out.println("Total distance: " + ga.getTotalDistance(solution));
         myVisualizer.LoesungsAnzeige(ga.EdgeToPoint(solution), "src\\berlin52.tsp Loesung -52 Knoten");
-        List<MyEdge> solution2 = ga2.solveTSP();
+        /*List<MyEdge> solution2 = ga2.solveTSP();
         System.out.println("Best solution found: " + solution2);
         System.out.println("Total distance: " + ga2.getTotalDistance(solution2));
-        myVisualizer.LoesungsAnzeige(ga2.EdgeToPoint(solution2), "src\\ch150 Loesung -150 Knoten");
+        myVisualizer.LoesungsAnzeige(ga2.EdgeToPoint(solution2), "src\\ch150 Loesung -150 Knoten");*/
     }
 }

@@ -28,7 +28,7 @@ public class MyEdge {
     }
     @Override
     public String toString(){
-        String ausgabe= " Punkt: "+a.toString()+" zu Punkt: "+b.toString()+" hat die Distanz: "+calculateDistance();
+        String ausgabe= " Punkt: "+a.toString()+" zu Punkt: "+b.toString()+" hat die Distanz: "+calculateDistance()+"\n";
         return ausgabe;
     }
 }
