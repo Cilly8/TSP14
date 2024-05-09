@@ -52,7 +52,7 @@ public class TestGraph {
     }
     @Test
     public void testVisuals() throws IOException {
-        TSPadvancedVisualizer visualizer=new TSPadvancedVisualizer();
+        //TSPadvancedVisualizer visualizer=new TSPadvancedVisualizer();
         List<Point> distancesB= TSPToGraph.distanceList("src\\berlin52.tsp", 52);
         int populationSize = 50;
         double crossoverRate = 0.8;

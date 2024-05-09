@@ -1,23 +1,22 @@
 package supportMethods;
 
+import javax.swing.*;
+
 import Logic.GraphAlgo;
 import Logic.TSPToGraph;
 import edu.uci.ics.jung.algorithms.layout.*;
 import edu.uci.ics.jung.algorithms.layout.SpringLayout;
-import edu.uci.ics.jung.graph.Graph;
-import edu.uci.ics.jung.graph.SparseGraph;
-import edu.uci.ics.jung.visualization.VisualizationViewer;
+import edu.uci.ics.jung.graph.*;
+import edu.uci.ics.jung.visualization.*;
 import edu.uci.ics.jung.visualization.decorators.ToStringLabeller;
+import supportMethods.Point;
 
-import javax.swing.*;
-import java.awt.*;
+import java.awt.Dimension;
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
-public class TSPadvancedVisualizer {
-    private TSPToGraph transformer;
-    private GraphAlgo computer;
+public class ImprovedTSPVisualizer {
+
     public static void main(String[] args) throws IOException {
         List<Point> distancesB;
         distancesB = TSPToGraph.distanceList("src\\berlin52.tsp", 52);
@@ -37,9 +36,12 @@ public class TSPadvancedVisualizer {
         // Annahme: Die Lösung ist eine Reihenfolge von Städten (Knoten)
         List<Point> solution = ga.EdgeToPoint(solutionEdge); // Beispiel-Lösung
 
+        // Annahme: Die Lösung ist eine Reihenfolge von Städten (Knoten)
+
+
         // Erstelle einen Graphen mit den Städten und Kanten entsprechend der Lösung
         Graph<Point, String> graph = new SparseGraph<>();
-        for (int i = 0; i < solution.size() -1; i++) {
+        for (int i = 0; i < solution.size() - 1; i++) {
             Point currentCity = solution.get(i);
             Point nextCity = solution.get(i + 1);
             graph.addVertex(currentCity);
@@ -47,10 +49,16 @@ public class TSPadvancedVisualizer {
             graph.addEdge("Edge" + i, currentCity, nextCity);
         }
 
-        // Erstelle den Visualisierer
-        VisualizationViewer<Point, String> vv = new VisualizationViewer<>(new KKLayout<>(graph));
+        // Erstelle den Layout-Algorithmus (Spring Embedder)
+        Layout<Point, String> layout = new ISOMLayout<>(graph);
+
+        // Setze die Größe des Layouts
+        layout.setSize(new Dimension(1500, 1000)); // Größeres Layout
+
+        // Erstelle den Visualisierer mit dem Layout
+        VisualizationViewer<Point, String> vv = new VisualizationViewer<>(layout);
         vv.getRenderContext().setVertexLabelTransformer(new ToStringLabeller<>());
-        vv.setPreferredSize(new Dimension(1500, 1500));
+        vv.setPreferredSize(new Dimension(1900, 1000)); // Größeres Fenster
 
         // Erstelle ein Swing-Fenster und füge den Visualisierer hinzu
         JFrame frame = new JFrame("TSP Lösung Visualisierung");
@@ -58,5 +66,4 @@ public class TSPadvancedVisualizer {
         frame.getContentPane().add(vv);
         frame.pack();
         frame.setVisible(true);
-    }
-}
+    }}
