@@ -1,5 +1,6 @@
 package Logic;
 
+import groovyjarjarantlr4.v4.runtime.BailErrorStrategy;
 import supportMethods.ImprovedTSPVisualizer;
 import supportMethods.MyEdge;
 import supportMethods.Point;
@@ -8,13 +9,13 @@ import java.io.IOException;
 import java.util.*;
 
 public class GraphAlgo {
-    private final List<Point> citys;
+    private List<Point> citys;
     private int populationSize;
     private double crossoverRate;
     private double mutationRate;
     private int tournamentSize;
     private int maxGenerations;
-
+    boolean berlin=true;
     public GraphAlgo(List<Point> citys, int populationSize, double crossoverRate, double mutationRate,
                      int tournamentSize, int maxGenerations) {
         this.citys = citys;
@@ -143,11 +144,11 @@ public class GraphAlgo {
         return bestIndividual;
     }
 
-    private void setParameterMenue(Scanner menuScanner) {//Setztung der Paramter durch den Nutzer in Form eines Menps
+    private void setParameterMenue(Scanner menuScanner) throws IOException {//Setztung der Paramter durch den Nutzer in Form eines Menps
         String Eingabe;
         System.out.println("Dies ist das Menü, geben Sie bitte Ihre Werte ein. Falls Sie das nicht machen werden Standartwerte genutzt");
         do {
-            System.out.println("Einwohnerzahl pro Generation=e\nGenerationen Anzahl=g\nKreuzungsrate=k\nMutationsrate=m\nTurniergröße=t\nParameter Ausgeben=p\nEingabe Beenden=Q");
+            System.out.println("Einwohnerzahl pro Generation=e\nGenerationen Anzahl=g\nKreuzungsrate=k\nMutationsrate=m\nStadtwechseln=s\nTurniergröße=t\nParameter Ausgeben=p\nEingabe Beenden=Q");
             Eingabe = menuScanner.nextLine();
             switch (Eingabe) {
                 case "e"://Einwohnerzahl pro Generation
@@ -182,6 +183,17 @@ public class GraphAlgo {
                         this.mutationRate = sicherStringZuDouble(Eingabe);
                     }
                     break;
+                case "S":
+                case "s":
+                    berlin=!berlin;
+                    if(berlin){
+                    this.citys=TSPToGraph.distanceList("src\\berlin52.tsp", 52);
+                    System.out.println("Stadt zu Berlin gewechselt");
+                    }else {
+                        this.citys=TSPToGraph.distanceList("src\\ch150.tsp", 150);
+                        System.out.println("Stadt zu churritz gewechselt");
+                    }
+                    break;
                 case "t"://Turniergröße
                 case "T":
                     System.out.println("Bitte geben Sie die Turniergröße ein oder Z für zurück");
@@ -205,6 +217,8 @@ public class GraphAlgo {
     }
 
     private void alleParameterAusgabe() {
+        if(this.berlin){
+        System.out.println("Ihre Stadt ist auf Berlin gestellt");}else{System.out.println("Ihre Stadt ist auf churritz gestellt");}
         System.out.println("Einwohnerzahl:" + this.populationSize);
         System.out.println("Kreuzungsrate:" + this.crossoverRate);
         System.out.println("Mutationsrate:" + this.mutationRate);
@@ -233,29 +247,18 @@ public class GraphAlgo {
     public static void main(String[] args) throws IOException {
         Scanner menuScanner = new Scanner(System.in);
         ImprovedTSPVisualizer myVisualizer = new ImprovedTSPVisualizer();
-        List<Point> distancesB;
-        distancesB = TSPToGraph.distanceList("src\\berlin52.tsp", 52);
-        //List<Point> distancesA = TSPToGraph.distanceList("src\\ch150.tsp", 150);
+        List<Point> distancesA = TSPToGraph.distanceList("src\\berlin52.tsp", 52);
         int populationSize = 150;
-        double crossoverRate = 0.8;
-        double mutationRate = 0.5;
-        int tournamentSize = 15;
-        int maxGenerations = 1500;
-        GraphAlgo ga = new GraphAlgo(distancesB, populationSize, crossoverRate, mutationRate,
+        double crossoverRate = 1;
+        double mutationRate = 0.2;
+        int tournamentSize = 5;
+        int maxGenerations = 1000;
+        GraphAlgo ga = new GraphAlgo(distancesA, populationSize, crossoverRate, mutationRate,
                 tournamentSize, maxGenerations);
-       // GraphAlgo ga2 = new GraphAlgo(distancesA, populationSize, crossoverRate, mutationRate,
-           //     tournamentSize, maxGenerations);
-        ga.setParameterMenue(menuScanner);
-        //System.out.println("Super hier ist das Zweite Menü für die anderen Städte");
-        //ga2.setParameterMenue(menuScanner);
         menuScanner.close();
         List<MyEdge> solution = ga.solveTSP();//Lösungen erst als Text dann als Graphik ausgeben
         System.out.println("Best solution found: \n" + solution);
         System.out.println("Total distance: " + ga.getTotalDistance(solution));
         myVisualizer.LoesungsAnzeige(ga.EdgeToPoint(solution), "src\\berlin52.tsp Loesung -52 Knoten");
-        /*List<MyEdge> solution2 = ga2.solveTSP();
-        System.out.println("Best solution found: " + solution2);
-        System.out.println("Total distance: " + ga2.getTotalDistance(solution2));
-        myVisualizer.LoesungsAnzeige(ga2.EdgeToPoint(solution2), "src\\ch150 Loesung -150 Knoten");*/
-    }
+        }
 }
