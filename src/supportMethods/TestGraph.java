@@ -64,8 +64,5 @@ public class TestGraph {
         GraphAlgo ga = new GraphAlgo(distancesB, populationSize, crossoverRate, mutationRate,
                 tournamentSize, maxGenerations);
         List<MyEdge> distanceA=ga.PointToEdge(distancesB);
-        distancesB=ga.EdgeToPoint(distanceA);
-
     }
-
 }
