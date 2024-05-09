@@ -35,6 +35,8 @@ public class TestGraph {
         List<MyEdge> solution2 = ga2.solveTSP();
         System.out.println("Best solution found: " + solution2);
         System.out.println("Total distance: " + ga2.getTotalDistance(solution2));
+        assertEquals(52,distancesB.size());
+        assertEquals(229,distancesA.size());
     }
     @Test
     public void TestReading() throws IOException {

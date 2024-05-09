@@ -39,7 +39,7 @@ public class GraphAlgo {
                 List<MyEdge> parent1 = tournamentSelection(population);
                 List<MyEdge> parent2 = tournamentSelection(population);
                 List<MyEdge> offspring = crossover(parent1, parent2);
-                mutate(offspring);
+                offspring=mutate(offspring);
                 nextGeneration.add(offspring);
             }
 
@@ -103,13 +103,16 @@ public class GraphAlgo {
         return this.PointToEdge(offspring);
     }
 
-    private void mutate(List<MyEdge> individual) {
+    private List<MyEdge> mutate(List<MyEdge> individual) {
         List<Point> routeNoDistance=this.EdgeToPoint(individual);
         if (Math.random() < mutationRate) {
             int index1 = new Random().nextInt(routeNoDistance.size());
             int index2 = new Random().nextInt(routeNoDistance.size());
             Collections.swap(routeNoDistance, index1, index2);
-            individual=this.PointToEdge(routeNoDistance);
+           return individual=this.PointToEdge(routeNoDistance);
+        }
+        else{
+            return individual;
         }
     }
 
