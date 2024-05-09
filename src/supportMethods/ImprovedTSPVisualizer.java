@@ -15,11 +15,9 @@ import java.awt.Dimension;
 import java.io.IOException;
 import java.util.*;
 
-public class ImprovedTSPVisualizer {//Alles eine Methode damit wir leichter beide Lösungenzeigen können
+public class ImprovedTSPVisualizer {//Alles eine Methode damit wir leichter beide Lösungen anzeigen können
 
     public void LoesungsAnzeige(List<Point> solution, String Text) {
-
-        // Annahme: Die Lösung ist eine Reihenfolge von Städten (Knoten)
 
         // Erstelle einen Graphen mit den Städten und Kanten entsprechend der Lösung
         Graph<Point, String> graph = new SparseGraph<>();
