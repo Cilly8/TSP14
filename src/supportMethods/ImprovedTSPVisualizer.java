@@ -17,24 +17,10 @@ import java.util.*;
 
 public class ImprovedTSPVisualizer {
 
-    public static void main(String[] args) throws IOException {
-        List<Point> distancesB;
-        distancesB = TSPToGraph.distanceList("src\\berlin52.tsp", 52);
-        List<Point> distancesA = TSPToGraph.distanceList("src\\gr229.tsp", 229);
-        int populationSize = 50;
-        double crossoverRate = 0.8;
-        double mutationRate = 0.2;
-        int tournamentSize = 20;
-        int maxGenerations = 1000;
-
-        GraphAlgo ga = new GraphAlgo(distancesB, populationSize, crossoverRate, mutationRate,
-                tournamentSize, maxGenerations);
-        GraphAlgo ga2 = new GraphAlgo(distancesA, populationSize, crossoverRate, mutationRate,
-                tournamentSize, maxGenerations);
-
-        List<MyEdge> solutionEdge = ga.solveTSP();
+    public void LoesungsAnzeige(GraphAlgo Loesungsgraph) {
+        List<MyEdge> solutionEdge = Loesungsgraph.solveTSP();
         // Annahme: Die Lösung ist eine Reihenfolge von Städten (Knoten)
-        List<Point> solution = ga.EdgeToPoint(solutionEdge); // Beispiel-Lösung
+        List<Point> solution = Loesungsgraph.EdgeToPoint(solutionEdge); // Beispiel-Lösung
 
         // Annahme: Die Lösung ist eine Reihenfolge von Städten (Knoten)
 
@@ -66,4 +52,7 @@ public class ImprovedTSPVisualizer {
         frame.getContentPane().add(vv);
         frame.pack();
         frame.setVisible(true);
-    }}
+
+    }
+
+}

@@ -259,5 +259,21 @@ public class GraphAlgo {
         List<Integer> solution2 = ga2.solveTSP();
         System.out.println("Best solution found: " + solution2);
         System.out.println("Total distance: " + ga2.fitness(solution2));
+
     }
+    public static void main(String[] args) throws IOException {
+        List<Point> distancesB;
+        distancesB = TSPToGraph.distanceList("src\\berlin52.tsp", 52);
+        List<Point> distancesA = TSPToGraph.distanceList("src\\gr229.tsp", 229);
+        int populationSize = 50;
+        double crossoverRate = 0.8;
+        double mutationRate = 0.2;
+        int tournamentSize = 20;
+        int maxGenerations = 1000;
+
+        GraphAlgo ga = new GraphAlgo(distancesB, populationSize, crossoverRate, mutationRate,
+                tournamentSize, maxGenerations);
+        GraphAlgo ga2 = new GraphAlgo(distancesA, populationSize, crossoverRate, mutationRate,
+                tournamentSize, maxGenerations);
+    }}
 }
