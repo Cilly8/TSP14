@@ -1,18 +1,11 @@
 package Logic;
-
-import Cilly.TSPAlgo;
-import Cilly.TSPLoader;
 import supportMethods.ImprovedTSPVisualizer;
 import supportMethods.MyEdge;
 import supportMethods.Point;
-
 import java.io.IOException;
 import java.util.*;
-
 public class GraphAlgo {
-    /*static Scanner scanner = new Scanner(System.in);
-   private static String filePath = scanner.nextLine();;*/
-    private List<Point> citys;
+    private final List<Point> citys;
     private int populationSize;
     private double crossoverRate;
     private double mutationRate;
@@ -29,7 +22,7 @@ public class GraphAlgo {
         this.maxGenerations = maxGenerations;
     }
 
-    public List<MyEdge> solveTSP() {
+    public List<MyEdge> solveTSP() {//alle methoden werden nacheinander aufgerufen um das Tsp zu Lösen
         List<List<MyEdge>> population = initializePopulation();
 
         for (int generation = 0; generation < maxGenerations; generation++) {
@@ -120,7 +113,6 @@ public class GraphAlgo {
         }
         return routeNoDistances;
     }
-
     public List<MyEdge>PointToEdge(List<Point> routeNoDistances){
         List<MyEdge> route=new ArrayList<>();
         for (int j = 0; j < routeNoDistances.size(); j++) {
@@ -163,7 +155,8 @@ public class GraphAlgo {
                     System.out.println("Bitte geben Sie die Einwohneranzahl ein oder Z für zurück");
                     Eingabe = menuScanner.nextLine();
                     if (!Eingabe.equals("z") && !Eingabe.equals("Z")) {
-                        this.populationSize=sicherStringZuInt(Eingabe);
+                        if (sicherStringZuInt(Eingabe)!=null){
+                        this.populationSize=sicherStringZuInt(Eingabe);}
                     }
                     break;
                 case "g"://Anzahl der Generationen
@@ -171,7 +164,8 @@ public class GraphAlgo {
                     System.out.println("Bitte geben Sie die Generationenanzahl ein oder Z für zurück");
                     Eingabe = menuScanner.nextLine();
                     if (!Eingabe.equals("z") && !Eingabe.equals("Z")) {
-                        this.maxGenerations=sicherStringZuInt(Eingabe);
+                        if (sicherStringZuInt(Eingabe)!=null){
+                        this.maxGenerations=sicherStringZuInt(Eingabe);}
                     }
                     break;
                 case "k":
@@ -187,7 +181,8 @@ public class GraphAlgo {
                     System.out.println("Bitte geben Sie die Mutationsrate ein oder Z für zurück");
                     Eingabe = menuScanner.nextLine();
                     if (!Eingabe.equals("z") && !Eingabe.equals("Z")) {
-                        this.mutationRate=sicherStringZuDouble(Eingabe);
+                        if (sicherStringZuDouble(Eingabe)!=null){
+                        this.mutationRate=sicherStringZuDouble(Eingabe);}
                     }
                     break;
                 case "t"://Turniergröße
@@ -195,7 +190,8 @@ public class GraphAlgo {
                     System.out.println("Bitte geben Sie die Turniergröße ein oder Z für zurück");
                     Eingabe = menuScanner.nextLine();
                     if (!Eingabe.equals("z") && !Eingabe.equals("Z")) {
-                        this.tournamentSize=(sicherStringZuInt(Eingabe));
+                        if (sicherStringZuDouble(Eingabe)!=null){
+                        this.tournamentSize=(sicherStringZuInt(Eingabe));}
                     }
                     break;
                 case "p"://Parameter Ausgeben
@@ -221,6 +217,10 @@ public class GraphAlgo {
     }
 
     private static Integer sicherStringZuInt(String str) {//menü falsche eingabe des nUtzers abfangen
+        if (str==null || str.equals("")){
+            System.out.println("Null Eingabe: " + str);
+            return null;
+        }
         try {
             return Integer.parseInt(str);
         } catch (NumberFormatException e) {
@@ -230,6 +230,10 @@ public class GraphAlgo {
     }
 
     private static Double sicherStringZuDouble(String str) {//menü falsche eingabe des nUtzers abfangen
+        if (str==null || str.equals("")){
+            System.out.println("Null Eingabe: " + str);
+            return null;
+        }
         try {
             return Double.parseDouble(str);
         } catch (NumberFormatException e) {
