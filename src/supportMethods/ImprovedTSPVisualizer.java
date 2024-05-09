@@ -30,6 +30,11 @@ public class ImprovedTSPVisualizer {//Alles eine Methode damit wir leichter beid
             graph.addVertex(nextCity);
             graph.addEdge("Edge" + i, currentCity, nextCity);
         }
+        Point currentCity = solution.get(solution.size()-1);
+        Point nextCity = solution.get(0);
+        graph.addVertex(currentCity);
+        graph.addVertex(nextCity);
+        graph.addEdge("Edge" + solution.size(), currentCity, nextCity);
 
         // Erstelle den Layout-Algorithmus (Spring Embedder)
         Layout<Point, String> layout = new ISOMLayout<>(graph);
