@@ -102,14 +102,13 @@ public class GraphAlgo {
             int index1 = new Random().nextInt(routeNoDistance.size());
             int index2 = new Random().nextInt(routeNoDistance.size());
             Collections.swap(routeNoDistance, index1, index2);
-            individual=this.PointToEdge(routeNoDistance);
         }
     }
 
     public List<Point>EdgeToPoint(List<MyEdge> route){
         List<Point> routeNoDistances=new ArrayList<>();
-        for (int i = 0; i < route.size(); i++) {
-            routeNoDistances.add(route.get(i).getA());
+        for (MyEdge myEdge : route) {
+            routeNoDistances.add(myEdge.getA());
         }
         return routeNoDistances;
     }
@@ -127,8 +126,7 @@ public class GraphAlgo {
 
     public int getTotalDistance(List<MyEdge> individual) {
         int totalDistance = 0;
-        for (int i = 0; i < individual.size() ; i++) {
-            MyEdge partIndividual=individual.get(i);
+        for (MyEdge partIndividual : individual) {
             totalDistance += partIndividual.calculateDistance();
         }
         return totalDistance;
@@ -155,18 +153,14 @@ public class GraphAlgo {
                     System.out.println("Bitte geben Sie die Einwohneranzahl ein oder Z für zurück");
                     Eingabe = menuScanner.nextLine();
                     if (!Eingabe.equals("z") && !Eingabe.equals("Z")) {
-                        if (sicherStringZuInt(Eingabe)!=null){
                         this.populationSize=sicherStringZuInt(Eingabe);}
-                    }
                     break;
                 case "g"://Anzahl der Generationen
                 case "G":
                     System.out.println("Bitte geben Sie die Generationenanzahl ein oder Z für zurück");
                     Eingabe = menuScanner.nextLine();
                     if (!Eingabe.equals("z") && !Eingabe.equals("Z")) {
-                        if (sicherStringZuInt(Eingabe)!=null){
                         this.maxGenerations=sicherStringZuInt(Eingabe);}
-                    }
                     break;
                 case "k":
                 case "K"://Kreuzungsrate
@@ -181,8 +175,7 @@ public class GraphAlgo {
                     System.out.println("Bitte geben Sie die Mutationsrate ein oder Z für zurück");
                     Eingabe = menuScanner.nextLine();
                     if (!Eingabe.equals("z") && !Eingabe.equals("Z")) {
-                        if (sicherStringZuDouble(Eingabe)!=null){
-                        this.mutationRate=sicherStringZuDouble(Eingabe);}
+                        this.mutationRate=sicherStringZuDouble(Eingabe);
                     }
                     break;
                 case "t"://Turniergröße
@@ -190,8 +183,7 @@ public class GraphAlgo {
                     System.out.println("Bitte geben Sie die Turniergröße ein oder Z für zurück");
                     Eingabe = menuScanner.nextLine();
                     if (!Eingabe.equals("z") && !Eingabe.equals("Z")) {
-                        if (sicherStringZuDouble(Eingabe)!=null){
-                        this.tournamentSize=(sicherStringZuInt(Eingabe));}
+                        this.tournamentSize=(sicherStringZuInt(Eingabe));
                     }
                     break;
                 case "p"://Parameter Ausgeben
@@ -217,10 +209,6 @@ public class GraphAlgo {
     }
 
     private static Integer sicherStringZuInt(String str) {//menü falsche eingabe des nUtzers abfangen
-        if (str==null || str.equals("")){
-            System.out.println("Null Eingabe: " + str);
-            return null;
-        }
         try {
             return Integer.parseInt(str);
         } catch (NumberFormatException e) {
@@ -230,10 +218,6 @@ public class GraphAlgo {
     }
 
     private static Double sicherStringZuDouble(String str) {//menü falsche eingabe des nUtzers abfangen
-        if (str==null || str.equals("")){
-            System.out.println("Null Eingabe: " + str);
-            return null;
-        }
         try {
             return Double.parseDouble(str);
         } catch (NumberFormatException e) {
