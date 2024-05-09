@@ -235,7 +235,7 @@ public class GraphAlgo {
         ImprovedTSPVisualizer myVisualizer = new ImprovedTSPVisualizer();
         List<Point> distancesB;
         distancesB = TSPToGraph.distanceList("src\\berlin52.tsp", 52);
-        List<Point> distancesA = TSPToGraph.distanceList("src\\gr229.tsp", 229);
+        List<Point> distancesA = TSPToGraph.distanceList("src\\ch150.tsp", 150);
         int populationSize = 50;
         double crossoverRate = 0.8;
         double mutationRate = 0.2;
@@ -256,6 +256,6 @@ public class GraphAlgo {
         List<MyEdge> solution2 = ga2.solveTSP();
         System.out.println("Best solution found: " + solution2);
         System.out.println("Total distance: " + ga2.getTotalDistance(solution2));
-        myVisualizer.LoesungsAnzeige(ga2.EdgeToPoint(solution2), "src\\gr229.tsp Loesung -229 Knoten");
+        myVisualizer.LoesungsAnzeige(ga2.EdgeToPoint(solution2), "src\\ch150 Loesung -150 Knoten");
     }
 }
