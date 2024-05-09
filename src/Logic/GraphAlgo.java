@@ -6,10 +6,7 @@ import supportMethods.MyEdge;
 import supportMethods.Point;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 public class GraphAlgo {
     /*static Scanner scanner = new Scanner(System.in);
@@ -153,7 +150,94 @@ public class GraphAlgo {
         }
         return bestIndividual;
     }
+    private void setParameterMenue() {//Setztung der Paramter durch den Nutzer in Form eines Menps
+        Scanner menuScanner = new Scanner(System.in);
+        String Eingabe;
+        System.out.println("Dies ist das Menü, geben Sie bitte Ihre Werte ein. Falls Sie das nicht machen werden Standartwerte genutzt");
+        do {
+            System.out.println("Einwohnerzahl pro Generation=e\nGenerationen Anzahl=g\nKreuzungsrate=k\nMutationsrate=m\nTurniergröße=t\nParameter Ausgeben=p\nEingabe Beenden=Q");
+            Eingabe = menuScanner.nextLine();
+            switch (Eingabe) {
+                case "e"://Einwohnerzahl pro Generation
+                case "E":
+                    System.out.println("Bitte geben Sie die Einwohneranzahl ein oder Z für zurück");
+                    Eingabe = menuScanner.nextLine();
+                    if (!Eingabe.equals("z") && !Eingabe.equals("Z")) {
+                        this.populationSize=sicherStringZuInt(Eingabe);
+                    }
+                    break;
+                case "g"://Anzahl der Generationen
+                case "G":
+                    System.out.println("Bitte geben Sie die Generationenanzahl ein oder Z für zurück");
+                    Eingabe = menuScanner.nextLine();
+                    if (!Eingabe.equals("z") && !Eingabe.equals("Z")) {
+                        this.maxGenerations=sicherStringZuInt(Eingabe);
+                    }
+                    break;
+                case "k":
+                case "K"://Kreuzungsrate
+                    System.out.println("Bitte geben Sie die Kreuzungsrate ein oder Z für zurück");
+                    Eingabe = menuScanner.nextLine();
+                    if (!Eingabe.equals("z") && !Eingabe.equals("Z")) {
+                        this.crossoverRate=sicherStringZuDouble(Eingabe);
+                    }
+                    break;
+                case "m"://Mutationsrate
+                case "M":
+                    System.out.println("Bitte geben Sie die Mutationsrate ein oder Z für zurück");
+                    Eingabe = menuScanner.nextLine();
+                    if (!Eingabe.equals("z") && !Eingabe.equals("Z")) {
+                        this.mutationRate=sicherStringZuDouble(Eingabe);
+                    }
+                    break;
+                case "t"://Turniergröße
+                case "T":
+                    System.out.println("Bitte geben Sie die Turniergröße ein oder Z für zurück");
+                    Eingabe = menuScanner.nextLine();
+                    if (!Eingabe.equals("z") && !Eingabe.equals("Z")) {
+                        this.tournamentSize=(sicherStringZuInt(Eingabe));
+                    }
+                    break;
+                case "p"://Parameter Ausgeben
+                case "P":
+                    this.alleParameterAusgabe();
+                    break;
+                case "q"://Quit
+                case "Q":
+                    break;
+                default:
+                    System.out.println("Eingabe nicht erkannt bitte versuchen sie es erneut");
+            }
+        } while (!Eingabe.equals("q") && !Eingabe.equals("Q"));
+        menuScanner.close();
+        System.out.println("Eingabe Beendet");
+    }
 
+    private void alleParameterAusgabe() {
+        System.out.println("Einwohnerzahl:" + this.populationSize);
+        System.out.println("Kreuzungsrate:" + this.crossoverRate);
+        System.out.println("Mutationsrate:" + this.mutationRate);
+        System.out.println("Turniergröße:" + this.tournamentSize);
+        System.out.println("Anzahl der Generationen:" + this.maxGenerations);
+    }
+
+    private static Integer sicherStringZuInt(String str) {//menü falsche eingabe des nUtzers abfangen
+        try {
+            return Integer.parseInt(str);
+        } catch (NumberFormatException e) {
+            System.out.println("Ungültige Eingabe: " + str);
+            return null;
+        }
+    }
+
+    private static Double sicherStringZuDouble(String str) {//menü falsche eingabe des nUtzers abfangen
+        try {
+            return Double.parseDouble(str);
+        } catch (NumberFormatException e) {
+            System.out.println("Ungültige Eingabe: " + str);
+            return null;
+        }
+    }
     public static void main(String[] args) throws IOException {
         double[][] distancesB = TSPLoader.distanceMatrix("src\\berlin52.tsp", 52);
         double[][] distancesA = TSPLoader.distanceMatrix("src\\gr229.tsp", 229);
