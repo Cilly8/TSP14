@@ -236,11 +236,11 @@ public class GraphAlgo {
         List<Point> distancesB;
         distancesB = TSPToGraph.distanceList("src\\berlin52.tsp", 52);
         List<Point> distancesA = TSPToGraph.distanceList("src\\ch150.tsp", 150);
-        int populationSize = 50;
+        int populationSize = 200;
         double crossoverRate = 0.8;
-        double mutationRate = 0.2;
-        int tournamentSize = 5;
-        int maxGenerations = 1000;
+        double mutationRate = 0.5;
+        int tournamentSize = 10;
+        int maxGenerations = 2000;
         GraphAlgo ga = new GraphAlgo(distancesB, populationSize, crossoverRate, mutationRate,
                 tournamentSize, maxGenerations);
         GraphAlgo ga2 = new GraphAlgo(distancesA, populationSize, crossoverRate, mutationRate,

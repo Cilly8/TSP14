@@ -14,10 +14,10 @@ public class TSPToGraph {
     private List<MyEdge> distances = new ArrayList<>();
 
     public static List<Point> loadTSP(String filePath, int numLocations) throws IOException {
-        double[][] distanceMatrix = new double[numLocations][numLocations];
         // Read the TSP file
         BufferedReader reader = new BufferedReader(new FileReader(filePath));
         String line;
+        citys.clear();
         boolean coordinatesStarted = false;
         int placeonIndex = 0;
         while ((line = reader.readLine()) != null) {
@@ -30,7 +30,6 @@ public class TSPToGraph {
                 double y1 = Double.parseDouble(parts[2]);
                 Point a = new Point(x1, y1);
                 citys.add(a);
-                int otherplaceonIndex = placeonIndex + 1; // Beginne mit dem nächsten Ort
                 placeonIndex++;
             } else {
                 if (line.startsWith("NODE_COORD_SECTION")) {
