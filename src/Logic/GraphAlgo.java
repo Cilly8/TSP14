@@ -6,6 +6,8 @@ import supportMethods.Point;
 
 import java.io.IOException;
 import java.util.*;
+import java.util.Collections;
+
 
 public class GraphAlgo {
     private List<Point> citys;
@@ -30,7 +32,6 @@ public class GraphAlgo {
 
         for (int generation = 0; generation < maxGenerations; generation++) {
             List<List<MyEdge>> nextGeneration = new ArrayList<>();
-
             while (nextGeneration.size() < populationSize) {
                 List<MyEdge> parent1 = tournamentSelection(population);
                 List<MyEdge> parent2 = tournamentSelection(population);
@@ -38,7 +39,9 @@ public class GraphAlgo {
                 mutate(offspring);
                 nextGeneration.add(offspring);
             }
-            population = nextGeneration;
+            // Führe (µ + λ)-Selektion durch, um die nächste Generation auszuwählen
+            population = muPlusLambdaSelection(population, nextGeneration, populationSize-1);
+            //population = nextGeneration;
         }
         return getBestIndividual(population);
     }
@@ -104,6 +107,30 @@ public class GraphAlgo {
             Collections.swap(routeNoDistance, index1, index2);
         }
     }
+
+    private double calculateFitness(List<MyEdge> individual) {
+        double totalDistance = getTotalDistance(individual);
+        // Je kleiner die Gesamtdistanz, desto besser ist die Fitness
+        return 1 / (1 + totalDistance); // Inversion, damit die Fitness umso größer ist, je kleiner die Distanz ist
+    }
+
+    private List<List<MyEdge>> muPlusLambdaSelection(List<List<MyEdge>> population, List<List<MyEdge>> offspring, int mu) {
+        // Kombiniere Eltern- und Kind-Population
+        List<List<MyEdge>> combinedPopulation = new ArrayList<>(population);
+        combinedPopulation.addAll(offspring);
+
+        // Sortiere die kombinierte Population nach Fitness (in absteigender Reihenfolge)
+        combinedPopulation.sort((a, b) -> Double.compare(calculateFitness(b), calculateFitness(a)));
+
+        // Wähle die besten µ Individuen aus der kombinierten Population aus
+        List<List<MyEdge>> selectedIndividuals = new ArrayList<>();
+        for (int i = 0; i < mu && i < combinedPopulation.size(); i++) {
+            selectedIndividuals.add(combinedPopulation.get(i));
+        }
+
+        return selectedIndividuals;
+    }
+
 
     public List<Point> EdgeToPoint(List<MyEdge> route) {
         List<Point> routeNoDistances = new ArrayList<>();
@@ -186,8 +213,8 @@ public class GraphAlgo {
                 case "s":
                     berlin=!berlin;
                     if(berlin){
-                    this.citys=TSPToGraph.distanceList("src\\berlin52.tsp", 52);
-                    System.out.println("Stadt zu Berlin gewechselt");
+                        this.citys=TSPToGraph.distanceList("src\\berlin52.tsp", 52);
+                        System.out.println("Stadt zu Berlin gewechselt");
                     }else {
                         this.citys=TSPToGraph.distanceList("src\\ch150.tsp", 150);
                         System.out.println("Stadt zu churritz gewechselt");
@@ -217,7 +244,7 @@ public class GraphAlgo {
 
     private void alleParameterAusgabe() {
         if(this.berlin){
-        System.out.println("Ihre Stadt ist auf Berlin gestellt");}else{System.out.println("Ihre Stadt ist auf churritz gestellt");}
+            System.out.println("Ihre Stadt ist auf Berlin gestellt");}else{System.out.println("Ihre Stadt ist auf churritz gestellt");}
         System.out.println("Einwohnerzahl:" + this.populationSize);
         System.out.println("Kreuzungsrate:" + this.crossoverRate);
         System.out.println("Mutationsrate:" + this.mutationRate);
@@ -247,7 +274,7 @@ public class GraphAlgo {
         Scanner menuScanner = new Scanner(System.in);
         ImprovedTSPVisualizer myVisualizer = new ImprovedTSPVisualizer();
         List<Point> distancesA = TSPToGraph.distanceList("src\\berlin52.tsp", 52);
-        int populationSize = 150;
+        int populationSize = 200;
         double crossoverRate = 1;
         double mutationRate = 0.2;
         int tournamentSize = 5;
@@ -259,5 +286,5 @@ public class GraphAlgo {
         System.out.println("Best solution found: \n" + solution);
         System.out.println("Total distance: " + ga.getTotalDistance(solution));
         myVisualizer.LoesungsAnzeige(ga.EdgeToPoint(solution), "src\\berlin52.tsp Loesung -52 Knoten");
-        }
+    }
 }
