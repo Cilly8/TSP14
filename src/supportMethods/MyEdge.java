@@ -1,5 +1,6 @@
 package supportMethods;
 
+import supportMethods.Point;
 
 public class MyEdge {
     private Point a;
