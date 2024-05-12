@@ -26,6 +26,7 @@ public class MyEdge {
         double yQuadrat=ydiff*ydiff;
         return Math.sqrt(xQuadrat+yQuadrat);
     }
+
     @Override
     public String toString(){
         String ausgabe= " Punkt: "+a.toString()+" zu Punkt: "+b.toString()+" hat die Distanz: "+calculateDistance()+"\n";
