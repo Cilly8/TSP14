@@ -48,5 +48,4 @@ public class ImprovedTSPVisualizer {//Alles eine Methode damit wir leichter beid
         frame.setVisible(true);
 
     }
-
 }

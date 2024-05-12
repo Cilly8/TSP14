@@ -50,7 +50,7 @@ public class TestGraph {
                 tournamentSize, maxGenerations);
         List<MyEdge> distanceA=ga.PointToEdge(distancesB);
         distancesB=ga.EdgeToPoint(distanceA);
-       assertEquals(52,distancesB.size());
+        assertEquals(52,distancesB.size());
     }
     @Test
     public void testVisuals() throws IOException {

@@ -11,13 +11,16 @@ public class Point {
     public double getY() {
         return y;
     }
+
     public Point(double x1,double y1){
         x=x1;
         y=y1;
     }
+
     @Override
     public String toString(){
         String ausgabe= "( "+x+", "+y+" )";
         return ausgabe;
     }
 }
+
