@@ -27,6 +27,10 @@ public class TSPRunner {
         List<MyEdge> solution = ga.solveTSP();//Lösungen erst als Text dann als Graphik ausgeben
         System.out.println("Best solution found: \n" + solution);
         System.out.println("Total distance: " + ga.getTotalDistance(solution));
-        myVisualizer.LoesungsAnzeige(ga.EdgeToPoint(solution), "src\\berlin52.tsp Loesung -52 Knoten");
+        if(ga.berlin){
+        myVisualizer.LoesungsAnzeige(ga.EdgeToPoint(solution), "src\\berlin52.tsp Loesung -52 Knoten");}
+        else{
+            myVisualizer.LoesungsAnzeige(ga.EdgeToPoint(solution), "src\\ch150.tsp Loesung -150 Knoten");
+        }
     }
 }
