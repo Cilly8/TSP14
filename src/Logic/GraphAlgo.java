@@ -196,7 +196,7 @@ public class GraphAlgo {
 
     //MENÜ
     //Setztung der Paramter durch den Nutzer in Form eines Menüs
-    private void setParameterMenue(Scanner menuScanner) throws IOException {
+    void setParameterMenue(Scanner menuScanner) throws IOException {
         String Eingabe;
         System.out.println("\n--- Menü ---\n Bitte geben Sie Ihre Werte ein. Falls Sie das nicht machen werden Standartwerte genutzt.");
 
@@ -276,7 +276,7 @@ public class GraphAlgo {
             System.out.println("Ihre Stadt ist auf Churritz gestellt.");
         }
         System.out.println("Einwohnerzahl: " + this.populationSize);
-        System.out.println("Kreuzungsrate: " + this.crossoverRate);
+        //System.out.println("Kreuzungsrate: " + this.crossoverRate);
         System.out.println("Mutationsrate: " + this.mutationRate);
         System.out.println("Turniergröße: " + this.tournamentSize);
         System.out.println("Anzahl der Generationen: " + this.maxGenerations);

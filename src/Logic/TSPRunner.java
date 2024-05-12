@@ -22,7 +22,7 @@ public class TSPRunner {
 
         GraphAlgo ga = new GraphAlgo(distancesA, populationSize, crossoverRate, mutationRate,
                 tournamentSize, maxGenerations);
-
+        ga.setParameterMenue(menuScanner);
         menuScanner.close();
         List<MyEdge> solution = ga.solveTSP();//Lösungen erst als Text dann als Graphik ausgeben
         System.out.println("Best solution found: \n" + solution);
